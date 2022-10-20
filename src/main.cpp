@@ -27,13 +27,14 @@ int main(int argc, char *argv[])
             break;
         case 3:
         {
-            if (!IsNumber(argv[0]) || !IsNumber(argv[1]))
+            if (!IsNumber(argv[1]) || !IsNumber(argv[2]))
             {
                 std::cout << "\u001b[31mInvalid usage:\u001b[0m coordinates must be numbers" << std::endl;
                 break;
             }
-            tictactoe::Board board {atoi(argv[0]), atoi(argv[1]), 5, 2};
+            tictactoe::Board board {atoi(argv[1]), atoi(argv[2]), 5, 2};
             tictactoe::Game game {board};
+            game.GameLoop();
             break;
         }
         default:

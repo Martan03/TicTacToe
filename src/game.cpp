@@ -68,10 +68,10 @@ namespace tictactoe
                 std::cout << "  .";
                 break;
             case 1:
-                std::cout << "  \u001b[32mX\u001b[0m";
+                std::cout << "  \u001b[0;92mX\u001b[0m";
                 break;
             case 2:
-                std::cout << "  \u001b[31mO\u001b[0m";
+                std::cout << "  \u001b[0;91mO\u001b[0m";
                 break;
             default:
                 std::cout << "  ?";
