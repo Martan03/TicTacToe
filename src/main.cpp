@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     {
         case 1:
         {
+            // starts 3x3 game
             tictactoe::Board board {3, 3, 3, 2};
             tictactoe::Game game {board};
             game.GameLoop();
