@@ -14,3 +14,9 @@ Starts the game and sets width to height to given size
 ```
 tictactoe <width> <height>
 ```
+
+Type 'quit' to exit the game
+
+Links:  
+[Author GitHub](https://github.com/Martan03)  
+[Author website](https://martan03.github.io/Portfolio/)
