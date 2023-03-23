@@ -3,7 +3,7 @@ OUT:=main
 CFLAGS:=-g -Wall -std=c++20
 RFLAGS:=-std=c++20 -DNDEBUG -O3
 CFILES:=$(wildcard src/*.cpp)
-HFILES:=$(wildcard src/*.h)
+HFILES:=$(wildcard src/*.hpp)
 OBJS:=$(patsubst src/%.cpp, obj/%.o, $(CFILES))
 
 debug: $(OBJS)

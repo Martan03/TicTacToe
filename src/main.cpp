@@ -3,59 +3,106 @@
 #include "board.hpp"
 #include "game.hpp"
 
-void Help();
-bool IsNumber(std::string s);
+// Definitions of colors
+#define DY "\e[33m"
+#define DG "\e[92m"
+#define DW "\e[97m"
+#define DR "\e[91m"
+#define DBB "\e[90m"
+#define DRS "\e[0m"
 
-int main(int argc, char *argv[])
+/// @brief Prints help
+void Help();
+
+/// @brief Prints message to stderr
+/// @param msg message to be printed
+void PrintErr(std::string msg);
+
+/// @brief Converts string to number, exits if error occures
+/// @param s string to be converted to number
+/// @return converted number
+int CheckNumber(std::string s);
+
+int main(int argc, char **argv)
 {
-    if (argc == 2 && strcmp(argv[1], "help") == 0)
+    int width = 3, height = 3, win = 3;
+    while (*++argv)
     {
-        Help();
-        return 0;
-    }
-    switch (argc)
-    {
-        case 1:
+        std::string arg = *argv;
+
+        if (arg == "-s" || arg == "--size")
         {
-            // starts 3x3 game
-            tictactoe::Board board {3, 3, 3, 2};
-            tictactoe::Game game {board};
-            game.GameLoop();
-            break;
+            width = CheckNumber(*++argv);
+            height = CheckNumber(*++argv);
+
+            if (width <= 0 || height <= 0)
+                PrintErr("size must be positive");
         }
-        case 2:
-            std::cout << "\u001b[31mInvalid usage:\u001b[0m 2 parameters necessary" << std::endl;
-            break;
-        case 3:
+        else if (arg == "-w" || arg == "--win")
         {
-            if (!IsNumber(argv[1]) || !IsNumber(argv[2]))
-            {
-                std::cout << "\u001b[31mInvalid usage:\u001b[0m coordinates must be numbers" << std::endl;
-                break;
-            }
-            tictactoe::Board board {atoi(argv[1]), atoi(argv[2]), 5, 2};
-            tictactoe::Game game {board};
-            game.GameLoop();
-            break;
+            win = CheckNumber(*++argv);
+
+            if (win <= 0)
+                PrintErr("win length must be positive");
         }
-        default:
-            std::cout << "\u001b[31mInvalid usage:\u001b[0m help to show help" << std::endl;
-            break;
+        else if (arg == "-h" || arg == "--help")
+        {
+            Help();
+            return 0;
+        }
+        else
+        {
+            PrintErr(
+                "invalid usage. Type " DY "tictactoe -h" DRS " to display help"
+            );
+        }
     }
+
+    tictactoe::Board board {width, height, win, 2};
+    tictactoe::Game game {board};
+    game.GameLoop();
+
     return 0;
 }
 
 void Help()
 {
-    std::cout << "\u001b[35mTicTacToe\u001b[0m help!" << std::endl;
-    std::cout << "\n\u001b[33mUsage:\u001b[0m" << std::endl;
-    std::cout << "  \u001b[33mtictactoe\u001b[0m <\u001b[33;1mwidth\u001b[0m> <\u001b[33;1mheight\u001b[0m>" << std::endl;
-    std::cout << "    starts a game, width and height are optional" << std::endl;
+    std::cout << "Welcome to help for \e[92m\e[9mTicTacToe\e[0m by ";
+    // Prints name with color gradient
+    std::string name = "Martan03";
+    int r = 0, g = 220;
+    for (int i = 0; i < name.length(); ++i)
+        std::cout << "\e[38;2;" << r + i * 25 << ";"
+                  << g - i * 20 << ";255m" << name[i];
+    std::cout << std::endl;
+
+    // Prints usage
+    std::cout <<
+        "\n" DG "Usage: " DW "tictactoe " DBB "[flags]\n\n" DRS
+        DG "Flags:\n" DRS
+        DY "  -h --help\n" DRS "    Displays help\n\n"
+        DY "  -s --size " DW "[width] [height]\n" DRS
+        "    Sets board's width and height\n\n"
+        DY "  -w --win " DW "[win length]\n" DRS
+        "    Sets win length"
+    << std::endl;
 }
 
-bool IsNumber(std::string s)
+void PrintErr(std::string msg)
 {
-    std::string::const_iterator it = s.begin();
-    while (it != s.end() && std::isdigit(*it)) ++it;
-    return !s.empty() && it == s.end();
+    std::cerr << DR "Error: " DRS << msg << std::endl;
+    exit(1);
+}
+
+int CheckNumber(std::string s)
+{
+    try
+    {
+        return stoi(s);
+    }
+    catch (std::invalid_argument)
+    {
+        PrintErr("invalid argument");
+    }
+    return 0;
 }
