@@ -4,7 +4,7 @@
 #include "game.hpp"
 
 // Definitions of colors
-#define DY "\e[33m"
+#define DY "\e[93m"
 #define DG "\e[92m"
 #define DW "\e[97m"
 #define DR "\e[91m"
