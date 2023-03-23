@@ -1,5 +1,5 @@
 CC:=clang++
-OUT:=main
+OUT:=tictactoe
 CFLAGS:=-g -Wall -std=c++20
 RFLAGS:=-std=c++20 -DNDEBUG -O3
 CFILES:=$(wildcard src/*.cpp)
@@ -16,4 +16,4 @@ $(OBJS): $(CFILES)
 	$(CC) $(CFLAGS) -c $(patsubst obj/%.o, src/%.cpp, $@) -o $@
 
 clean:
-	del $(patsubst obj/%, obj\\%, $(OBJS))
+	rm $(OBJS)
